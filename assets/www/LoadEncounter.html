@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+
+<!-- LoadEncounter is used to resume previously saved encounters. Scripts are contained in LoadEncounter.js. -->
+<html>
+<head>
+
+<meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+
+<title>MSF Form</title>
+<link href="css/jquery.mobile-1.3.1.min.css" rel="stylesheet"
+	type="text/css" />
+<link href="css/msf_form.css" rel="stylesheet" type="text/css" />
+
+<link href="css/mobiscroll.jqm.css" rel="stylesheet" type="text/css" />
+<link href="css/mobiscroll.core.css" rel="stylesheet" type="text/css" />
+
+<script src="js/lib/cordova-2.9.0.js" type="text/javascript"></script>
+
+<script src="js/lib/jquery-1.8.2.min.js" type="text/javascript"></script>
+<script src="js/lib/jquery.mobile-1.3.1.min.js" type="text/javascript"></script>
+
+<script src="js/lib/mobiscroll.core.js" type="text/javascript"></script>
+<script src="js/lib/mobiscroll.jqm.js" type="text/javascript"></script>
+<script src="js/lib/mobiscroll.datetime.js" type="text/javascript"></script>
+<script src="js/lib/i18n/mobiscroll.i18n.fr.js" type="text/javascript"></script>
+
+<script src="js/lib/lodash.js" type="text/javascript"></script>
+<script src="js/lib/backbone.js" type="text/javascript"></script>
+<script src="js/lib/backbone.localStorage.js" type="text/javascript"></script>
+
+<script src="js/LoadEncounter.js" type="text/javascript"></script>
+
+
+</head>
+
+<body>
+	<div data-role="page" data-theme="c">
+		<div data-role="header">
+			<h3>Modifier un formulaire</h3>
+		</div>
+		<div data-role="content">
+			<div id="formSelectContainer" data-role="fieldcontain">
+			</div>
+			<hr>
+			<div id="encounterList" data-role="fieldcontain"></div>
+		</div>
+		<div data-role="footer"></div>
+	</div>
+
+
+<script id='tmpl-formSelect' type='text/template'>
+<div id="formSelectContainer" data-role="fieldcontain">
+	<label for="formSelect">Choisissez un formulaire:</label>
+	<select name="formSelect" id="formSelect">
+		<% for (var i = 0; i < forms.length; i++) { %>
+			<option value="<%= forms[i].name %>"><%= forms[i].nameReadable %></option>
+		<% } %>
+	</select>
+</div>
+</script>
+
+<script id='tmpl-encounterList' type='text/template'>
+<ul id="formSelect" data-role="listview" data-filter="true" data-filter-placeholder="Rechercher...">
+	<% for (var i = 0; i < encounterFiles.length; i++) { %>
+		<li><a href="Form.html?formFilePath=js/forms/<%=encounterFiles.at(i).get('formName') %>.json&encounter=<%= encounterFiles.at(i).get('fileName') %>" data-ajax="false">
+			<h2><%= encounterFiles.at(i).get('formNameReadable') %></h2>
+			<% if(!encounterFiles.at(i).get('complete')) { %>
+				<h3 style="color:red;font-weight:bold">FORMULAIRE INCOMPLET</h3>
+			<% } %>
+			<% 	var descriptors = encounterFiles.at(i).get('descriptors');
+				if (descriptors) {
+					for (var j = 0; j < descriptors.length; j++) { %>
+						<p><strong><%= descriptors[j].label %>: </strong><%= descriptors[j].value %></p>
+					<% }
+				} %>
+		</a></li>
+	<% } %>
+</ul>
+</script>
+
+</body>
+
+</html>

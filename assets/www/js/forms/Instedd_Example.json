@@ -1,0 +1,162 @@
+{
+   "name":"Cameroon_Village",
+   "nameReadable":"Cameroon Village Form",
+   "description":"Form to fill at each village",
+   "global":{
+
+   },
+   "descriptors":[
+      {
+         "label":"Date",
+         "conceptId":"date_lieu"
+      },
+      {
+         "label":"Nom du lieu",
+         "conceptId":"nom_lieu"
+      },
+      {
+         "label":"Nom du lieu",
+         "conceptId":"Aire de santé"
+      }
+   ],
+   "pages":[
+      {
+         "header":{
+            "title":"INFORMATIONS DU VILLAGE",
+            "theme":"b"
+         },
+         "footer":{
+            "theme":"c"
+         },
+         "content":{
+            "theme":"c",
+            "views":[
+               {
+                  "viewType":"gps",
+                  "conceptId":"gps",
+                  "label":"GPS"
+               },
+               {
+                  "viewType":"ranking",
+                  "label":"Choisir par ordre de priorité (1, 2, 3, 4...)",
+                  "children":[
+                     {
+                        "label":"Vente de production agricole",
+                        "conceptId":"revprod"
+                     },
+                     {
+                        "label":"Emprunts",
+                        "conceptId":"revempr"
+                     },
+                     {
+                        "label":"Travail contre argent",
+                        "conceptId":"revtrav"
+                     },
+                     {
+                        "label":"Transfert d'argent",
+                        "conceptId":"revtran"
+                     },
+                     {
+                        "label":"Travail non qualifié-main oeuvre",
+                        "conceptId":"revmain"
+                     },
+                     {
+                        "label":"Vente de bétail (boeuf-chameau)",
+                        "conceptId":"revbeta"
+                     },
+                     {
+                        "label":"Vente de petits animaux",
+                        "conceptId":"revanim"
+                     },
+                     {
+                        "label":"Autre",
+                        "conceptId":"revautr"
+                     }
+                  ]
+               },
+               {
+                  "viewType":"select",
+                  "conceptId":"nuvill1",
+                  "label":"Nom du village, zone 1",
+                  "options":[
+                     {
+                        "value":"1",
+                        "label":"Hide"
+                     },
+                     {
+                        "value":"2",
+                        "label":"Show"
+                     }
+                  ]
+               },
+               {
+                  "viewType":"ranking",
+                  "label":"Choisir par ordre de priorité (1, 2, 3, 4...)",
+                  "showIf":{
+                     "conceptIds":[
+                        "nuvill1"
+                     ],
+                     "condition":"nuvill1 == '2'"
+                  },
+                  "children":[
+                     {
+                        "label":"Vente de production agricole",
+                        "conceptId":"revprod2"
+                     },
+                     {
+                        "label":"Emprunts",
+                        "conceptId":"revempr2"
+                     },
+                     {
+                        "label":"Travail contre argent",
+                        "conceptId":"revtrav2"
+                     },
+                     {
+                        "label":"Transfert d'argent",
+                        "conceptId":"revtran2"
+                     },
+                     {
+                        "label":"Travail non qualifié-main oeuvre",
+                        "conceptId":"revmain2"
+                     },
+                     {
+                        "label":"Vente de bétail (boeuf-chameau)",
+                        "conceptId":"revbeta2"
+                     },
+                     {
+                        "label":"Vente de petits animaux",
+                        "conceptId":"revanim2"
+                     },
+                     {
+                        "label":"Autre",
+                        "conceptId":"revautr2"
+                     }
+                  ]
+               }
+            ]
+         }
+      },
+      {
+         "header":{
+            "title":"Sauvegarder les données du formulaire",
+            "theme":"b"
+         },
+         "footer":{
+            "theme":"c",
+            "footerButton3Text":"Sauvegarder",
+            "footerButton3Theme":"e",
+            "footerButton3Icon":"plus",
+            "footerButton3Action":"submit",
+            "footerButton3Disabled":false
+         },
+         "content":{
+            "theme":"c",
+            "views":[
+               {
+                  "viewType":"submitpage"
+               }
+            ]
+         }
+      }
+   ]
+}

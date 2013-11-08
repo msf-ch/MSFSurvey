@@ -1,0 +1,123 @@
+{
+   "name":"Test_Ranking",
+   "nameReadable":"Test Ranking",
+   "description":"",
+   "descriptors":[
+   ],
+   "global":{
+
+   },
+   "pages":[
+      {
+         "header":{
+            "title":"Page 5 : SOURCES DE REVENUS / REVENUS EN ARGENT",
+            "theme":"b"
+         },
+         "footer":{
+            "theme":"c"
+         },
+         "content":{
+            "theme":"c",
+            "views":[
+               {
+                  "viewType":"ranking",
+                  "label":"Choisir par ordre de priorité (1, 2, 3, 4...)",
+                  "children":[
+                     {
+                        "label":"Vente de production agricole",
+                        "conceptId":"revprod"
+                     },
+                     {
+                        "label":"Emprunts",
+                        "conceptId":"revempr"
+                     },
+                     {
+                        "label":"Travail contre argent",
+                        "conceptId":"revtrav"
+                     },
+                     {
+                        "label":"Transfert d'argent",
+                        "conceptId":"revtran"
+                     },
+                     {
+                        "label":"Travail non qualifié-main oeuvre",
+                        "conceptId":"revmain"
+                     },
+                     {
+                        "label":"Vente de bétail (boeuf-chameau)",
+                        "conceptId":"revbeta"
+                     },
+                     {
+                        "label":"Vente de petits animaux",
+                        "conceptId":"revanim"
+                     },
+                     {
+                        "label":"Autre",
+                        "conceptId":"revautr"
+                     }
+                  ]
+               },
+               {
+                  "viewType":"select",
+                  "conceptId":"nuvill1",
+                  "label":"Nom du village, zone 1",
+                  "options":[
+                     {
+                        "value":"1",
+                        "label":"Hide"
+                     },
+                     {
+                        "value":"2",
+                        "label":"Show"
+                     }
+                  ]
+               },
+               {
+                  "viewType":"ranking",
+                  "label":"Choisir par ordre de priorité (1, 2, 3, 4...)",
+                  "showIf":{
+                     "conceptIds":[
+                        "nuvill1"
+                     ],
+                     "condition":"nuvill1 == '2'"
+                  },
+                  "children":[
+                     {
+                        "label":"Vente de production agricole",
+                        "conceptId":"revprod2"
+                     },
+                     {
+                        "label":"Emprunts",
+                        "conceptId":"revempr2"
+                     },
+                     {
+                        "label":"Travail contre argent",
+                        "conceptId":"revtrav2"
+                     },
+                     {
+                        "label":"Transfert d'argent",
+                        "conceptId":"revtran2"
+                     },
+                     {
+                        "label":"Travail non qualifié-main oeuvre",
+                        "conceptId":"revmain2"
+                     },
+                     {
+                        "label":"Vente de bétail (boeuf-chameau)",
+                        "conceptId":"revbeta2"
+                     },
+                     {
+                        "label":"Vente de petits animaux",
+                        "conceptId":"revanim2"
+                     },
+                     {
+                        "label":"Autre",
+                        "conceptId":"revautr2"
+                     }
+                  ]
+               }
+            ]
+         }
+      }
+   ]
+}

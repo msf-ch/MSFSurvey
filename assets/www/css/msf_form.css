@@ -1,0 +1,202 @@
+@CHARSET "UTF-8";
+
+@media ( min-width: 35em ) {
+	/* Ranking View */
+	
+	.ui-table-reflow.rankingtable {
+		display: table;
+	}
+	/* Show the table header rows */ 
+	.ui-table-reflow.rankingtable td,
+	.ui-table-reflow.rankingtable th,
+	.ui-table-reflow.rankingtable tbody th,
+	.ui-table-reflow.rankingtable tbody td,
+	.ui-table-reflow.rankingtable thead td,
+	.ui-table-reflow.rankingtable thead th {
+		display: table-cell;
+		margin: 0;
+		vertical-align: middle;
+	}
+	.ui-table-reflow.rankingtable thead th {
+		text-align: center;
+	}
+	/* Hide the labels in each cell */ 
+	.ui-table-reflow.rankingtable td .ui-table-cell-label,
+	.ui-table-reflow.rankingtable th .ui-table-cell-label { 
+		display: none;
+	}
+
+    .rankingview label {
+        display : inline-block;
+        width : 18%;
+        margin-right : 2%;
+        vertical-align : top;
+    }
+    .rankingview .rankingviewtablecontainer {
+        width : 80%;
+        display : inline-block;
+    }
+    
+    .rankingview thead th {
+    	font: bold;
+    	font-size: large;
+    }
+    
+    .rankingview tbody tr.alt {
+    	background-color: #d3d3d3;
+    }
+    
+    .rankingview tbody tr.hidden {
+    	display: none;
+    }
+    
+    .rankingview tfoot {
+    	text-align: center;
+    }
+    
+    /* Photo View */
+    div.photoview > label {
+        display : inline-block;
+        width : 18%;
+        margin-right : 2%;
+        vertical-align : top;
+    }
+    
+    div.photoview > div.photocontainer {
+        width : 80%;
+        display : inline-block;
+    }
+    
+    div.photoview img.photo {
+    	display : block;
+    	width : 100%;
+    }
+    
+    div.photoview div.ui-input-text {    
+    	width : 100%;
+    	margin-top : 5px;
+    	margin-bottom : 5px;
+    }
+    
+    div.photoview a.takepic {
+    	display: block;
+    	overflow: hidden;
+    	width: auto;
+    }
+    
+    div.photoview a.removepic {
+    	float: right;
+    }
+    
+    /*JSON Select View*/
+    div.selectjsonformview div.ui-select {
+    	display : block;
+    	overflow : hidden;
+    	width : auto;
+    }
+    
+    a.edit-json-select-button {
+    	float : right;
+    }
+}
+
+
+#submitdialog {
+	position: fixed;
+	z-index: 100;
+	top: 30%;
+	left: 50%;
+	margin: -140px 0 0 -142px;
+	text-align: center;
+}
+
+[pageheader] {
+	text-align: center;
+	font-size: 16px;
+	font-weight: bold;
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-top: 0.6em;
+	padding-bottom: 0.8em;
+	border-left-width: 0;
+	border-right-width: 0;
+	margin-left: 0%;
+	margin-right: 0%;
+}
+
+.formview {
+	
+}
+
+.viewhidden {
+	display: none;
+}
+
+.viewwitherror {
+	background-color: #FFFF99;
+	margin-bottom: 5px;
+}
+
+.errorfield {
+	margin-top: 6px;
+}
+
+.errorfield ul li {
+	color: red;
+	list-style-type: disc;
+}
+
+.errorheader {
+	padding-top: 5px;
+	padding-bottom: 5px;
+	padding-left: 5px;
+	padding-right: 5px;
+	text-align: center;
+}
+
+.numberview div.ui-input-text {
+	max-width: 7em;
+}
+
+.dateview div.ui-input-text {
+	max-width: 10em;
+}
+
+/* Enlarge text, make the question column bigger */
+[data-role='fieldcontain'] fieldset > div:nth-child(1) {
+	font-size: larger !important;
+	width: 33% !important;
+	margin-right: 3% !important;
+}
+
+[data-role='fieldcontain'] fieldset > div:nth-child(2) {
+	font-size: larger !important;
+	width: 63% !important;
+}
+
+[data-role='fieldcontain'] fieldset > div:nth-child(1) legend {
+	width: 100% !important;
+}
+
+[formview] [data-role='fieldcontain'] > :nth-child(1):not(fieldset) {
+	font-size: larger !important;
+	width: 33% !important;
+	margin-right: 3% !important;
+}
+
+[formview] [data-role='fieldcontain'] > :nth-child(2):not(fieldset) {
+	font-size: larger !important;
+	width: 63% !important;
+}
+
+/* Widen the space between the questions */
+.ui-field-contain {
+	margin-bottom: 1.8em !important;
+}
+
+
+/* Popup */
+.ui-popup .ui-title {
+	margin-left : 1em;
+	margin-right : 1em;
+}

@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
+<meta name="viewport" content="target-densitydpi=medium-dpi, width=device-width, user-scalable=no" />
+
+<title>MSF Form</title>
+<link href="css/jquery.mobile-1.3.1.min.css" rel="stylesheet" type="text/css" />
+<link href="css/msf_form.css" rel="stylesheet" type="text/css" />
+
+<link href="css/mobiscroll.jqm.css" rel="stylesheet" type="text/css" />
+<link href="css/mobiscroll.core.css" rel="stylesheet" type="text/css" />
+
+
+</head>
+
+<body>
+
+	<!-- This page displays as the form is loading -->
+	<div data-role="page" id="loadingPage">
+		<div data-role="header" data-theme="e">
+			<h1 pageheader="true">Chargement du formulaire</h1>
+		</div>
+
+		<div data-role="content">
+			<div class="ui-bar ui-shadow ui-overlay-d ui-corner-all" id="loader"
+				style="margin-top: 100px; width: 340px; margin-left: auto; margin-right: auto; padding-bottom: 40px;">
+				<img alt="Lading image" src="img/msf_running_man.png" style="display: block; width: 285px; height: 245px; margin-left: auto; margin-right: auto;"/>
+				<img alt="Loading" src="img/ajax-loader.gif" style="display: block; margin-left: auto; margin-right: auto; margin-bottom: 1em;"/>
+				<h2 style="width: 100%; text-align: center;">Préparation du formulaire...</h2>
+			</div>
+		</div>
+	</div>
+
+
+<!-- Below are the templates written for Underscore/Lodash's _.template() function (in "renderPages" event)
+	to render items for the form. These are processed by JQuery mobile during the "decoratePages"
+	stage, so the actual rendered HTML structure might not match these designs. This is particularly
+	important for the question items, since the entry data is often nested underneath
+	several JQM containers. -->
+
+
+<!-- Page, template, and header are used in page.js -->
+<script id='tmpl-page' type='text/template'>
+	<div pageheader="true">
+	</div>
+	<div data-role="content">
+		<form>
+		</form>
+	</div>
+	<div data-role="footer">
+	</div>
+
+	<div data-role="popup" data-overlay-theme="a" class="ui-corner-all">
+	</div>
+</script>
+
+<script id='tmpl-header' type='text/template'>
+	<%= data.title %>
+</script>
+
+<script id='tmpl-footer' type='text/template'>
+<div data-role="navbar" data-iconpos="<%= data.footerIconPosition %>">
+	<ul>
+		<li><a action="<%= data.footerButton1Action %>" data-icon="<%= data.footerButton1Icon %>" data-theme="<%= data.footerButton1Theme %>">
+			<%= data.footerButton1Text %>
+		</a></li>
+		<li><a action="<%= data.footerButton2Action %>" data-icon="<%= data.footerButton2Icon %>" data-theme="<%= data.footerButton2Theme %>">
+			<%= data.footerButton2Text %>
+		</a></li>
+		<li><a action="<%= data.footerButton3Action %>" data-icon="<%= data.footerButton3Icon %>" data-theme="<%= data.footerButton3Theme %>">
+			<%= data.footerButton3Text %>
+		</a></li>
+	</ul>
+</div>
+</script>
+
+<!-- Question items are used in form_views.js
+	Some question types, like ranking, use multiple templates
+	 -->
+
+	<script id='tmpl-textview' type='text/template'>
+<%
+var inputId = view.id + '_input';
+%>
+<div class="textview" data-role="fieldcontain">
+	<label class="question-label" for="<%= inputId %>"><%= model.get('label') %></label>
+	<input type="text" id="<%= inputId %>" value="" />
+</div>
+</script>
+
+<script id='tmpl-numberview' type='text/template'>
+<%
+var inputId = view.id + '_input';
+%>
+<div class="numberview" data-role="fieldcontain">
+	<label class="question-label" for="<%= inputId %>"><%= model.get('label') %></label>
+	<input type="number" id="<%= inputId %>" value="" step="any" />
+</div>
+</script>
+
+
+<script id='tmpl-photoview' type='text/template'>
+<%
+var inputId = view.id + '_input';
+%>
+<div class="photoview" data-role="fieldcontain">
+	<label><%= model.get('label') %></label>
+	<div class="photocontainer">
+		<a class="removepic" href="#" data-role="button" data-icon="delete" data-iconpos="notext" data-theme="a" data-inline="true">Delete</a>
+		<a class="takepic" href="#" data-role="button" data-theme="b" data-inline="true" data-icon="star">Take picture</a>
+		<input class="imageuri" type="text" id="<%= inputId %>" value="" disabled/>
+		<img class="photo" alt="No image assigned" />
+	</div>
+</div>
+</script>
+
+<script id='tmpl-radioview' type='text/template'>
+<%
+var inputId = view.id + '-input';
+%>
+<div class="radioview" data-role="fieldcontain">
+	<fieldset data-role="controlgroup" <% if(model.get('horizontalMode')) {%> data-type="horizontal"<% } %>>
+		<legend class="question-label"><%= model.get('label') %></legend>
+		<div>
+		<% _.each(model.get('options'), function(option, index) {
+			var currentId = inputId + '-' + index; %>
+			<input type="radio" id="<%= currentId %>" name="<%= view.id %>" value="<%= option.value %>" />
+			<label for="<%= currentId %>"><%= option.label %></label>
+		<% }); %>
+		</div>
+	</fieldset>
+</div>
+</script>
+
+<script id='tmpl-selectview' type='text/template'>
+<%
+var inputId = view.id + '-input';
+%>
+<div class="selectview" data-role="fieldcontain">
+	<label class="question-label" for="<%= inputId %>"><%= model.get('label') %></label>
+	<select name="<%= inputId %>" id="<%= inputId %>">
+		<option value="" id="<%= inputId %>-blank" ></option>
+		<% _.each(model.get('options'), function(option, index) {
+			var currentId = inputId + '-' + index; %>
+			<option value="<%= option.value %>" id="<%= currentId %>" ><%= option.label %></option>
+		<% }); %>
+	</select>
+</div>
+</script>
+
+<script id='tmpl-selectjsonformview' type='text/template'>
+<%
+var inputId = view.id + '-input';
+%>
+<div class="selectjsonformview" data-role="fieldcontain">
+	<label class="question-label" for="<%= inputId %>"><%= model.get('label') %></label>
+	<div style="display:inline-block;">
+		<a class="edit-json-select-button" href="#" data-role="button" data-mini="true" data-inline="true" data-icon="edit" data-iconpos="left" data-theme="b">Liste</a>
+		<select name="<%= inputId %>" id="<%= inputId %>">
+		</select>
+	<div>
+</div>
+</script>
+
+<script id='tmpl-checkgroupview' type='text/template'>
+<%
+var inputId = view.id + '-input';
+%>
+<div class="checkgroupview" data-role="fieldcontain">
+	<fieldset data-role="controlgroup">
+		<legend class="question-label"><%= model.get('label') %></legend>
+	</fieldset>
+</div>
+</script>
+
+<script id='tmpl-checkview' type='text/template'>
+	<input type="checkbox" id="<%= view.id %>" conceptId="<%= model.conceptId %>" />
+	<label class="question-label" for="<%= view.id %>"><%= model.get('label') %></label>
+</script>
+
+<script id='tmpl-dateview' type='text/template'>
+<%
+var inputId = view.id + '_input';
+%>
+<div class="dateview" data-role="fieldcontain">
+	<label class="question-label" for="<%= inputId %>"><%= model.get('label') %></label>
+	<input type="text" id="<%= inputId %>" value=""/>
+</div>
+</script>
+
+<script id='tmpl-rankingview' type='text/template'>
+<%
+var inputId = view.id + '_input';
+%>
+<div class="rankingview" data-role="fieldcontain">
+	<label class="question-label"><%= model.get('label') %></label>
+	<div class="rankingviewtablecontainer">
+	<div ranked>
+	<table data-role="table" data-mode="reflow" class="rankingtable">
+            <thead>
+                <tr>
+                    <th colspan="3">Rang</th>
+                    <th style="width:100%">Selectionné</th>
+                    <th>Annuler</th>
+                </tr>
+            </thead>
+            <tbody>
+			</tbody>
+			<tfoot>
+				<tr>
+					<th class="ui-body ui-body-e" style="text-align: center;" colspan="5">Aucun item selectionné</th>
+				</tr>
+			</tfoot>
+	</table>
+	</div>
+	<div unranked>
+	<table data-role="table" data-mode="reflow" class="rankingtable">
+            <thead>
+                <tr>
+                    <th colspan="2" style="width:100%">items non selectionnés</th>
+                </tr>
+            </thead>
+            <tbody>
+			</tbody>
+	</table>
+	<div>
+	</div>
+</div>
+</script>
+
+<script id='tmpl-rankedrow' type='text/template'> 
+<th><span class="ranknumber"></span></th>
+<td><a href="#" action="moveup" data-icon="arrow-u" class="ui-icon-nodisc" data-iconshadow="false" data-role="button" data-iconpos="notext" data-theme="b" data-inline="true">Arrow up</a></td>
+<td><a href="#" action="movedown" data-icon="arrow-d" class="ui-icon-nodisc" data-iconshadow="false" data-role="button" data-iconpos="notext" data-theme="b" data-inline="true">Arrow down</a></td>	
+
+<td data-key="label"><%= item.get('label') %></td>
+		
+<td><a href="#" action="delete" data-role="button" data-icon="delete" data-iconpos="notext" data-theme="a" data-inline="true">Delete</a></td>
+</script>
+
+
+<script id='tmpl-unrankedrow' type='text/template'>
+<td><a href="#" action="add" data-role="button" data-icon="plus" data-iconpos="notext" data-theme="b" data-inline="true">Add</a></td>	
+
+<td data-key="label"><%= item.get('label') %></td>
+</script>
+
+
+<script id='tmpl-rankingitemview' type='text/template'> 
+<input type="number" />
+</script>
+
+
+<script id='tmpl-gpsacquireview' type='text/template'> 
+<%
+var contentId = view.id + '_content';
+%>
+<div class="gpsacquireview" data-role="fieldcontain">
+</div>
+</script>
+
+
+<script id='tmpl-submitpage' type='text/template'>
+	<div class="ui-body ui-body-e" style="text-align:center;">
+		<h2>Veuillez vérifier votre saisie</h2>
+	</div>
+	<ul data-role="listview" data-inset="true" data-divider-theme="d">
+		<%
+			for (var i = 0; i < PageService.pageModels.length; i++) {
+				var pageModel = PageService.pageModels.at(i).attributes;
+		%>
+				<li data-role="list-divider"><%= pageModel.header.get('title') %></li>
+				<% var addFields;
+				addFields = function(viewModels) {
+					for (var j = 0; j < viewModels.length; j++) { 
+							var viewModel = viewModels[j];
+							var conceptId = viewModel.conceptId;
+							var itemLabel = viewModel.label;
+							var children = viewModel.children;
+							var value = ObsService.getObs(conceptId)
+							if (value) {
+							%>
+								<li> <a href="#">
+										<p><strong><%= itemLabel %></strong></p>
+										<h2><%= value %></h2>
+									</a> </li>
+							<% }
+							}
+
+					if (children) {
+						addFields(children);
+					} %>
+			<% } %>
+			<% addFields(pageModel.content.toJSON().views.toJSON()); %>
+	<% } %>
+
+	</ul>
+</script>
+
+<script id='tmpl-submitpage2' type='text/template'>
+	<div class="ui-body ui-body-e" style="text-align:center;">
+		<h2>Avez-vous terminé le questionnaire?</h2>
+		<h3>Si vous avez fini la saisie, presser "Sauvegarder" au bas de la page.</h3>
+	</div>
+</script>
+
+<script id='tmpl-html' type='text/template'>
+<%
+var contentId = view.id + '_content';
+%>
+<div class="htmlview" id="<%= contentId %>">
+<%= model.get('htmlContent') %>
+</div>
+</script>
+
+<script id='tmpl-errormsg' type='text/template'>
+	<div class="errorfield ui-body ui-body-e">
+		<ul>
+			<% for (var i = 0; i < errors.length; i++) { %>
+				<li><%= errors[i] %></li>
+			<% } %>
+		</ul>
+	</div>
+</script>
+
+<script id='tmpl-errorheader' type='text/template'>
+	<div class="errorheader ui-body ui-body-e">
+		<h2>Veuillez corriger les erreurs avant de continuer</h2>
+		<h3>Il y a <strong style="color : red"><%= errors.length %></strong> question à contrôler.</h3>
+	</div>
+</script>
+
+
+<!-- A generic popup that can be filled with text.  -->
+<script id='tmpl-genericpopup' type='text/template'>
+	<% if (data.headerText) { %>
+		<div class="ui-corner-top ui-header ui-bar-b">
+			<h1 class="ui-title"><%= data.headerText %></h1>
+		</div>
+	<% } %>
+	<div class="ui-corner-bottom ui-content ui-body-c <% if(!data.headerText) { %>ui-corner-top<% } %>">
+		<% if(data.titleText) { %>
+			<h3 class="ui-title"><%= data.titleText %></h3>
+		<% } %>
+		
+		<% if(data.bodyHTML) { %>
+			<%= data.bodyHTML %>
+		<% } %>
+	</div>
+</script>
+
+
+
+<script src="js/lib/jquery-1.8.2.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/lib/jquery.mobile-1.3.1.min.js" type="text/javascript" charset="utf-8"></script>
+
+<script src="js/lib/mobiscroll.core.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/lib/mobiscroll.jqm.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/lib/mobiscroll.datetime.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/lib/i18n/mobiscroll.i18n.fr.js" type="text/javascript" charset="utf-8"></script>
+
+<script src="js/lib/lodash.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/lib/backbone-min.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/lib/backbone.localStorage.js" type="text/javascript" charset="utf-8"></script>
+
+<script src="js/mvc/form_model.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/mvc/obs.js" type="text/javascript" charset="utf-8"></script>
+
+<script src="js/mvc/form_app.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/mvc/page.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/mvc/form_controller.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/mvc/form_views.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/mvc/form_defaults.js" type="text/javascript" charset="utf-8"></script>
+
+<script type="text/javascript" charset="utf-8">
+FormApp.start();
+</script>
+
+<script src="js/lib/cordova-2.9.0.js" type="text/javascript" charset="utf-8"></script>
+
+</body>
+
+</html>

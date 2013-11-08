@@ -1,0 +1,241 @@
+{
+   "name":"Cameroon_Village",
+   "nameReadable":"Cameroon Village Form",
+   "description":"Form to fill at each village",
+   "global":{
+
+   },
+   "descriptors":[
+      {
+         "label":"Date",
+         "conceptId":"date_lieu"
+      },
+      {
+         "label":"Nom du lieu",
+         "conceptId":"nom_lieu"
+      },
+      {
+         "label":"Nom du lieu",
+         "conceptId":"Aire de santé"
+      }
+   ],
+   "pages":[
+      {
+         "header":{
+            "title":"INFORMATIONS DU VILLAGE",
+            "theme":"b"
+         },
+         "footer":{
+            "theme":"c"
+         },
+         "content":{
+            "theme":"c",
+            "views":[
+               {
+                  "viewType":"gps",
+                  "conceptId":"gps",
+                  "label":"GPS"
+               },
+               {
+                  "viewType":"text",
+                  "conceptId":"gps_long",
+                  "label":"Longitude",
+                  "calculatedValue":{
+                     "conceptIds":[
+                        "gps"
+                     ],
+                     "functionCode":"if (gps) {var $gps = JSON.parse(gps); if ($gps.coords) {return $gps.coords.longitude;}} return '';"
+                  },
+                  "showIf":{
+                     "conceptIds":[
+
+                     ],
+                     "condition":"false"
+                  }
+               },
+               {
+                  "viewType":"text",
+                  "conceptId":"gps_lat",
+                  "label":"Latitude",
+                  "calculatedValue":{
+                     "conceptIds":[
+                        "gps"
+                     ],
+                     "functionCode":"if (gps) {var $gps = JSON.parse(gps); if ($gps.coords) {return $gps.coords.latitude;}} return '';"
+                  },
+                  "showIf":{
+                     "conceptIds":[
+
+                     ],
+                     "condition":"false"
+                  }
+               },
+               {
+                  "viewType":"text",
+                  "conceptId":"gps_accuracy",
+                  "label":"Accuracy",
+                  "calculatedValue":{
+                     "conceptIds":[
+                        "gps"
+                     ],
+                     "functionCode":"if (gps) {var $gps = JSON.parse(gps); if ($gps.coords) {return $gps.coords.accuracy;}} return '';"
+                  },
+                  "showIf":{
+                     "conceptIds":[
+
+                     ],
+                     "condition":"false"
+                  }
+               },
+               {
+                  "viewType":"text",
+                  "conceptId":"gps_altitude",
+                  "label":"Altitude",
+                  "calculatedValue":{
+                     "conceptIds":[
+                        "gps"
+                     ],
+                     "functionCode":"if (gps) {var $gps = JSON.parse(gps); if ($gps.coords) {return $gps.coords.altitude;}} return '';"
+                  },
+                  "showIf":{
+                     "conceptIds":[
+
+                     ],
+                     "condition":"false"
+                  }
+               },
+               {
+                  "viewType":"text",
+                  "conceptId":"gps_altaccuracy",
+                  "label":"Altitude accuracy",
+                  "calculatedValue":{
+                     "conceptIds":[
+                        "gps"
+                     ],
+                     "functionCode":"if (gps) {var $gps = JSON.parse(gps); if ($gps.coords) {return $gps.coords.altitudeAccuracy;}} return '';"
+                  },
+                  "showIf":{
+                     "conceptIds":[
+
+                     ],
+                     "condition":"false"
+                  }
+               },
+               {
+                  "viewType":"text",
+                  "conceptId":"gps_timestamp",
+                  "label":"Timestamp",
+                  "calculatedValue":{
+                     "conceptIds":[
+                        "gps"
+                     ],
+                     "functionCode":"if (gps) {var $gps = JSON.parse(gps); if ($gps.coords) {return $gps.timestamp;}} return '';"
+                  },
+                  "showIf":{
+                     "conceptIds":[
+                     ],
+                     "condition":"false"
+                  }
+               },
+               {
+                  "viewType":"text",
+                  "conceptId":"nom_lieu",
+                  "label":"Nom du lieu"
+               },
+               {
+                  "viewType":"radio",
+                  "conceptId":"aire_sante",
+                  "label":"Aire de santé",
+                  "options":[
+                     {
+                        "value":"Akonolinga Ville",
+                        "label":"Akonolinga Ville"
+                     },
+                     {
+                        "value":"Abem",
+                        "label":"Abem"
+                     },
+                     {
+                        "value":"Akak",
+                        "label":"Akak"
+                     },
+                     {
+                        "value":"Djoudjoua",
+                        "label":"Djoudjoua"
+                     },
+                     {
+                        "value":"Edjom",
+                        "label":"Edjom"
+                     },
+                     {
+                        "value":"Ekoudou",
+                        "label":"Ekoudou"
+                     },
+                     {
+                        "value":"Envane Sso",
+                        "label":"Envane Sso"
+                     },
+                     {
+                        "value":"Endom",
+                        "label":"Endom"
+                     },
+                     {
+                        "value":"Mengang",
+                        "label":"Mengang"
+                     },
+                     {
+                        "value":"Mengueme Ssi",
+                        "label":"Mengueme Ssi"
+                     },
+                     {
+                        "value":"Zalom",
+                        "label":"Zalom"
+                     },
+                     {
+                        "value":"Yeme Yeme",
+                        "label":"Yeme Yeme"
+                     }
+                  ]
+               },
+               {
+                  "viewType":"date",
+                  "conceptId":"date_lieu",
+                  "label":"Date:"
+               },
+               {
+                  "viewType":"text",
+                  "conceptId":"nom_enregis",
+                  "label":"Nom de l'enregistreur:"
+               },
+               {
+                  "viewType":"number",
+                  "conceptId":"nombre_enfant",
+                  "label":"Nombre d'enfants attendus dans le village"
+               }
+            ]
+         }
+      },
+      {
+         "header":{
+            "title":"Sauvegarder les données du formulaire",
+            "theme":"b"
+         },
+         "footer":{
+            "theme":"c",
+            "footerButton3Text":"Sauvegarder",
+            "footerButton3Theme":"e",
+            "footerButton3Icon":"plus",
+            "footerButton3Action":"submit",
+            "footerButton3Disabled":false
+         },
+         "content":{
+            "theme":"c",
+            "views":[
+               {
+                  "viewType":"submitpage"
+               }
+            ]
+         }
+      }
+   ]
+}
